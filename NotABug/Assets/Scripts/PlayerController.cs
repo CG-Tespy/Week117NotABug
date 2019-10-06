@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float m_RunSpeed = 40f;
+    [SerializeField] float m_RunSpeed = 15f;
+    [SerializeField] float m_JumpPower = 25f;
     [SerializeField] LayerMask groundLayer;
     private float m_HorizontalMovement = 0f;
     private Rigidbody2D m_RigidBody;
@@ -25,11 +26,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (m_HorizontalMovement != 0)
-        {
-            Debug.Log("Velocity: " + m_RigidBody.velocity);
-        }
-
         m_RigidBody.velocity = new Vector2(m_HorizontalMovement, m_RigidBody.velocity.y);
 
         if (m_AttemptJump)
@@ -45,16 +41,21 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, 25f);
+        m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, m_JumpPower);
     }
 
     private bool IsGrounded()
     {
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
-        float distance = m_Colider.bounds.size.y / 2 + 0.2f;
 
-        Debug.DrawRay(position, direction * distance, Color.green, 60);
+        float distanceToBoundary = m_Colider.bounds.size.y / 2;
+        float extraPadding = 0.2f;
+        float distance = distanceToBoundary + extraPadding;
+
+#if DEBUG
+        Debug.DrawRay(position, direction * distance, Color.green, 2);
+#endif
 
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
         if (hit.collider != null)
