@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82dbfabaf94145946afb1ffcf295fa4c, type: 3}
+  m_Name: Main Character
+  m_EditorClassIdentifier: 
+  name: Main Character
+  aboutMe: I don't want to be a bug anymore...
+  artwork: {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  rigidBody: {fileID: 0}
+  specialAbility: 0

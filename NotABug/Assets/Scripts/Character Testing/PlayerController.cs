@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float runSpeed = 15f;
-    [SerializeField] float jumpPower = 25f;
-    [SerializeField] LayerMask groundLayer;
+    [SerializeField]
+    float runSpeed = 15f;
+    [SerializeField]
+    float jumpPower = 25f;
+    [SerializeField]
+    private Character character;
 
     private float horizontalMovement = 0f;
     private bool attemptJump = false;
-
-    private Rigidbody2D rigidBody;
-    private Collider2D colider;
     
+    private Collider2D colider;
+    private LayerMask groundLayer;
+
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
-        colider = GetComponent<Collider2D>();
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = character.artwork;
+        character.rigidBody = GetComponent<Rigidbody2D>();
+        colider = gameObject.AddComponent<BoxCollider2D>();
+        groundLayer = LayerMask.GetMask("Ground");
     }
     
     void Update()
@@ -44,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveHorizontally()
     {
-        rigidBody.velocity = new Vector2(horizontalMovement, rigidBody.velocity.y);
+        character.rigidBody.velocity = new Vector2(horizontalMovement, character.rigidBody.velocity.y);
     }
 
     private void MoveVertically()
@@ -62,7 +68,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpPower);
+        character.rigidBody.velocity = new Vector2(character.rigidBody.velocity.x, jumpPower);
     }
 
     private bool IsGrounded()
