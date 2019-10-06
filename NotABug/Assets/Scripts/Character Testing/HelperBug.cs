@@ -12,16 +12,30 @@ public class HelperBug : MonoBehaviour
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = character.artwork;
         character.rigidBody = GetComponent<Rigidbody2D>();
+        character.transform = transform;
         BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
     }
     
     void Update()
     {
-        character.AttemptAbilityFromUpdate();
+        HandleSpecialAbilityUpdate();
     }
 
     private void FixedUpdate()
     {
-        character.AttemptAbilityFromFixedUpdate();
+        HandleSpecialAbilityFixedUpdate();
+    }
+
+    private void HandleSpecialAbilityUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            character.Update();
+        }
+    }
+
+    private void HandleSpecialAbilityFixedUpdate()
+    {
+        character.FixedUpdate();
     }
 }

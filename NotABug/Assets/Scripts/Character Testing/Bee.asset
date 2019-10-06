@@ -17,3 +17,4 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 088536216c5364d2ba277595d378c215, type: 3}
   rigidBody: {fileID: 0}
   specialAbility: 1
+  transform: {fileID: 0}

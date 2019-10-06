@@ -10,33 +10,28 @@ public class Character : ScriptableObject
     public Sprite artwork;
     public Rigidbody2D rigidBody;
     public SpecialAbility.Type specialAbility;
+    public Transform transform;
 
     private bool performActionInFixedUpdate = false;
 
-    public void AttemptAbilityFromUpdate()
+    public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (!SpecialAbility.IsTypePhysicsBased(specialAbility))
         {
-            if (!SpecialAbility.IsTypePhysicsBased(specialAbility))
-            {
-                Debug.Log("Performing action in Update");
-                SpecialAbility.Perform(this);
-            }
-            else
-            {
-                performActionInFixedUpdate = true;
-            }
+            SpecialAbility.Perform(this);
         }
-
+        else
+        {
+            performActionInFixedUpdate = true;
+        }
     }
 
-    public void AttemptAbilityFromFixedUpdate()
+    public void FixedUpdate()
     {
         if (performActionInFixedUpdate)
         {
             if (SpecialAbility.IsTypePhysicsBased(specialAbility))
             {
-                Debug.Log("Performing action in FixedUpdate");
                 SpecialAbility.Perform(this);
             }
 

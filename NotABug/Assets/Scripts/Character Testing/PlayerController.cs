@@ -22,26 +22,42 @@ public class PlayerController : MonoBehaviour
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = character.artwork;
         character.rigidBody = GetComponent<Rigidbody2D>();
+        character.transform = transform;
         colider = gameObject.AddComponent<BoxCollider2D>();
         groundLayer = LayerMask.GetMask("Ground");
     }
     
     void Update()
     {
+        HandleSpecialAbilityUpdate();
         GetInput();
     }
 
     private void FixedUpdate()
     {
+        HandleSpecialAbilityFixedUpdate();
         Move();
     }
 
-    void GetInput()
+    private void GetInput()
     {
         horizontalMovement = Input.GetAxisRaw("Horizontal") * runSpeed;
         attemptJump = Input.GetAxisRaw("Vertical") == 1 ? true : false;
     }
 
+    private void HandleSpecialAbilityUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            character.Update();
+        }
+    }
+
+    private void HandleSpecialAbilityFixedUpdate()
+    {
+        character.FixedUpdate();
+    }
+    
     private void Move()
     {
         MoveHorizontally();

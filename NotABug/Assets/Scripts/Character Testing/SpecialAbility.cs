@@ -64,7 +64,30 @@ public class SpecialAbility
 
     static private void PickLock(Character character)
     {
-        Debug.Log("I am attempting to pick a lock!");
-        character.rigidBody.position = character.rigidBody.position + Vector2.left;
+        GameObject lockInRange = GetLockInRange(character);
+        if (null != lockInRange)
+        {
+            lockInRange.GetComponent<Lockable>().ApplyAction();
+        }
+    }
+
+    static private GameObject GetLockInRange(Character character)
+    {
+        GameObject[] locks = GameObject.FindGameObjectsWithTag("Lockable");
+        Vector2 characterPosition = character.transform.position;
+
+        foreach (GameObject currentLock in locks)
+        {
+            Collider2D collider = currentLock.GetComponent<Collider2D>();
+            Vector2 lockClosestPosition = collider.bounds.ClosestPoint(characterPosition);
+            Vector2 difference = lockClosestPosition - characterPosition;
+
+            if (difference.sqrMagnitude < 5f)
+            {
+                return currentLock;
+            }
+        }
+
+        return null;
     }
 }
