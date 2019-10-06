@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
         Vector2 direction = Vector2.down;
 
         float distanceToBoundary = m_Colider.bounds.size.y / 2;
-        float extraPadding = 0.2f;
+        float extraPadding = 0.4f;
         float distance = distanceToBoundary + extraPadding;
 
 #if DEBUG
