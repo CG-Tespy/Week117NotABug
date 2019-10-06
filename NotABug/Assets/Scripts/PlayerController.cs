@@ -4,31 +4,52 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float m_RunSpeed = 15f;
-    [SerializeField] float m_JumpPower = 25f;
+    [SerializeField] float runSpeed = 15f;
+    [SerializeField] float jumpPower = 25f;
     [SerializeField] LayerMask groundLayer;
-    private float m_HorizontalMovement = 0f;
-    private Rigidbody2D m_RigidBody;
-    private Collider2D m_Colider;
-    private bool m_AttemptJump = false;
+
+    private float horizontalMovement = 0f;
+    private bool attemptJump = false;
+
+    private Rigidbody2D rigidBody;
+    private Collider2D colider;
     
     void Start()
     {
-        m_RigidBody = GetComponent<Rigidbody2D>();
-        m_Colider = GetComponent<Collider2D>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        colider = GetComponent<Collider2D>();
     }
     
     void Update()
     {
-        m_HorizontalMovement = Input.GetAxisRaw("Horizontal") * m_RunSpeed;
-        m_AttemptJump = Input.GetAxisRaw("Vertical") == 1 ? true : false ;
+        GetInput();
     }
 
     private void FixedUpdate()
     {
-        m_RigidBody.velocity = new Vector2(m_HorizontalMovement, m_RigidBody.velocity.y);
+        Move();
+    }
 
-        if (m_AttemptJump)
+    void GetInput()
+    {
+        horizontalMovement = Input.GetAxisRaw("Horizontal") * runSpeed;
+        attemptJump = Input.GetAxisRaw("Vertical") == 1 ? true : false;
+    }
+
+    private void Move()
+    {
+        MoveHorizontally();
+        MoveVertically();
+    }
+
+    private void MoveHorizontally()
+    {
+        rigidBody.velocity = new Vector2(horizontalMovement, rigidBody.velocity.y);
+    }
+
+    private void MoveVertically()
+    {
+        if (attemptJump)
         {
             Jump();
         }
@@ -40,8 +61,8 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        
-        m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, m_JumpPower);
+
+        rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpPower);
     }
 
     private bool IsGrounded()
@@ -49,7 +70,7 @@ public class PlayerController : MonoBehaviour
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
 
-        float distanceToBoundary = m_Colider.bounds.size.y / 2;
+        float distanceToBoundary = colider.bounds.size.y / 2;
         float extraPadding = 0.4f;
         float distance = distanceToBoundary + extraPadding;
 
