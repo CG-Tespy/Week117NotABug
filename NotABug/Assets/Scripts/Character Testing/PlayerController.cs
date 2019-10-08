@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private float horizontalMovement = 0f;
     private bool attemptJump = false;
     
-    private Collider2D colider;
+    private new Collider2D collider;
     private LayerMask groundLayer;
 
     void Start()
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.sprite = character.artwork;
         character.rigidBody = GetComponent<Rigidbody2D>();
         character.transform = transform;
-        colider = gameObject.AddComponent<BoxCollider2D>();
+        collider = gameObject.GetComponent<BoxCollider2D>();
         groundLayer = LayerMask.GetMask("Ground");
     }
     
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
 
-        float distanceToBoundary = colider.bounds.size.y / 2;
+        float distanceToBoundary = collider.bounds.size.y / 2;
         float extraPadding = 0.4f;
         float distance = distanceToBoundary + extraPadding;
 
@@ -107,5 +107,10 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        Debug.Log(this.name + " collided with " + other.gameObject.name);
     }
 }
