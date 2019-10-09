@@ -5,15 +5,12 @@ using UnityEngine;
 public class Collectible : MonoBehaviour
 {
     protected string pickupMessage;
-    protected AudioClip audioClip;
-
     private AudioSource audioSource;
     
-    void Start()
+    protected void Start()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
-        audioSource.clip = audioClip;
     }
     
     void OnTriggerEnter2D(Collider2D collider)
@@ -29,9 +26,10 @@ public class Collectible : MonoBehaviour
 
     virtual protected void OnPickUp()
     {
-        PlayPickupSound();
         Vanish();
+        PlayPickupSound();
         DisplayMessage();
+        Destruct();
     }
 
     private void PlayPickupSound()
@@ -41,16 +39,23 @@ public class Collectible : MonoBehaviour
             return;
         }
 
-        GetComponent<AudioSource>().Play();
+        audioSource.PlayOneShot(audioSource.clip);
     }
 
     private void Vanish()
     {
-        Object.Destroy(gameObject);
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
     }
 
     private void DisplayMessage()
     {
 
+    }
+
+    private void Destruct()
+    {
+        float bufferTimeToEnsureSoundPlays = audioSource.clip.length;
+        Object.Destroy(gameObject, bufferTimeToEnsureSoundPlays);
     }
 }
