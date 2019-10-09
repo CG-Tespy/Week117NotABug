@@ -13,28 +13,49 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalMovement = 0f;
     private bool attemptJump = false;
+    private bool isSwimming = false;
+    private float normalGravity;
+    private float swimTimeLeft;
+    private float health = 100;
     
     private Collider2D colider;
+    private SpriteRenderer spriteRenderer;
     private LayerMask groundLayer;
+    private LayerMask waterLayer;
+
+    private const float MAX_SWIM_TIME = 8f;
 
     void Start()
     {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = character.artwork;
         character.rigidBody = GetComponent<Rigidbody2D>();
         character.transform = transform;
         colider = gameObject.AddComponent<BoxCollider2D>();
         groundLayer = LayerMask.GetMask("Ground");
+        waterLayer = LayerMask.GetMask("Water");
+        normalGravity = character.rigidBody.gravityScale;
     }
     
     void Update()
     {
+        if (health <= 0)
+        {
+            return;
+        }
+
         HandleSpecialAbilityUpdate();
         GetInput();
+        CheckDrowning();
     }
 
     private void FixedUpdate()
     {
+        if (health <= 0)
+        {
+            return;
+        }
+
         HandleSpecialAbilityFixedUpdate();
         Move();
     }
@@ -73,7 +94,14 @@ public class PlayerController : MonoBehaviour
     {
         if (attemptJump)
         {
-            Jump();
+            if (isSwimming)
+            {
+                SwimmingJump();
+            }
+            else
+            {
+                Jump();
+            }
         }
     }
 
@@ -85,6 +113,11 @@ public class PlayerController : MonoBehaviour
         }
 
         character.rigidBody.velocity = new Vector2(character.rigidBody.velocity.x, jumpPower);
+    }
+
+    private void SwimmingJump()
+    {
+        character.rigidBody.velocity = new Vector2(character.rigidBody.velocity.x, 4f);
     }
 
     private bool IsGrounded()
@@ -107,5 +140,70 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        HandleSwimmingEvent(collider, true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        HandleSwimmingEvent(collider, false);
+    }
+
+    private void HandleSwimmingEvent(Collider2D collider, bool isOnEnter)
+    {
+        if (collider.gameObject.tag == "Water")
+        {
+            if (isOnEnter)
+            {
+                StartSwimming();
+            }
+            else
+            {
+                StopSwimming();
+            }
+        }
+    }
+
+    private void StartSwimming()
+    {
+        swimTimeLeft = MAX_SWIM_TIME;
+        Debug.Log("I am swimming my dude");
+        isSwimming = true;
+
+        character.rigidBody.gravityScale = 2f;
+        character.rigidBody.velocity = new Vector2(character.rigidBody.velocity.x, -3f);
+    }
+
+    private void StopSwimming()
+    {
+        isSwimming = false;
+        Debug.Log("I am no longer swimming my dude");
+        character.rigidBody.gravityScale = normalGravity;
+        swimTimeLeft = MAX_SWIM_TIME;
+    }
+
+    private void CheckDrowning()
+    {
+        if (!isSwimming)
+        {
+            return;
+        }
+
+        swimTimeLeft -= Time.deltaTime;
+
+        if (swimTimeLeft <= 0)
+        {
+            Debug.Log("You have drowned...");
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        health = 0;
+        spriteRenderer.transform.Rotate(Vector3.forward * -90);
     }
 }
