@@ -2,6 +2,8 @@
 
 using Fungus;
 
+// Credit to original Fungus devs for this code
+
 [CommandInfo("Rigidbody2D",
                  "SetVelocity2DFields",
                  "Set a Rigidbody2D's velocity")]
