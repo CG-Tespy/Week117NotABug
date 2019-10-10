@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private new Collider2D collider;
 
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
+    private float localScale;
 
     private LayerMask groundLayer;
     private LayerMask waterLayer;
@@ -33,10 +35,12 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.sprite = character.artwork;
         character.rigidBody = GetComponent<Rigidbody2D>();
         character.transform = transform;
-        collider = gameObject.GetComponent<BoxCollider2D>();
+        collider = gameObject.GetComponent<Collider2D>();
         groundLayer = LayerMask.GetMask("Ground");
         waterLayer = LayerMask.GetMask("Water");
         normalGravity = character.rigidBody.gravityScale;
+        animator = GetComponent<Animator>();
+        localScale = transform.localScale.x;
     }
     
     void Update()
@@ -60,6 +64,7 @@ public class PlayerController : MonoBehaviour
 
         HandleSpecialAbilityFixedUpdate();
         Move();
+        HandleAnimations();
     }
 
     private void GetInput()
@@ -90,6 +95,15 @@ public class PlayerController : MonoBehaviour
     private void MoveHorizontally()
     {
         character.rigidBody.velocity = new Vector2(horizontalMovement, character.rigidBody.velocity.y);
+
+        if (horizontalMovement > 0)
+        {
+            transform.localScale = new Vector2(localScale, transform.localScale.y);
+        }
+        else if (horizontalMovement < 0)
+        {
+            transform.localScale = new Vector2(-localScale, transform.localScale.y);
+        }
     }
 
     private void MoveVertically()
@@ -113,6 +127,8 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+
+        animator.SetTrigger("Jump");
 
         character.rigidBody.velocity = new Vector2(character.rigidBody.velocity.x, jumpPower);
     }
@@ -144,6 +160,17 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    private void HandleAnimations()
+    {
+        if (0 == horizontalMovement)
+        {
+            animator.SetTrigger("StopWalk");
+        }
+        else
+        {
+            animator.SetTrigger("Walk");
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -212,6 +239,7 @@ public class PlayerController : MonoBehaviour
     {
         health = 0;
         spriteRenderer.transform.Rotate(Vector3.forward * -90);
-
+        animator.SetTrigger("Dead");
+        GetComponent<AudioSource>().PlayOneShot(GetComponent<AudioSource>().clip);
     }
 }

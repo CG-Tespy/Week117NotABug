@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Main Character
   aboutMe: I don't want to be a bug anymore...
-  artwork: {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  artwork: {fileID: 21300000, guid: be9f94a69e70cb749a3945f0fadf2d6c, type: 3}
   rigidBody: {fileID: 0}
   specialAbility: 3
   transform: {fileID: 0}
