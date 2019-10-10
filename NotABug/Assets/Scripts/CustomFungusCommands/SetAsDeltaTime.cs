@@ -12,5 +12,6 @@ public class SetAsDeltaTime : Command
     {
         base.OnEnter();
         varToSet.Value = Time.deltaTime;
+        Continue();
     }
 }

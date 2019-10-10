@@ -18,8 +18,10 @@ public class PlayerController : MonoBehaviour
     private float swimTimeLeft;
     private float health = 100;
     
-    private Collider2D colider;
+    private new Collider2D collider;
+
     private SpriteRenderer spriteRenderer;
+
     private LayerMask groundLayer;
     private LayerMask waterLayer;
 
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.sprite = character.artwork;
         character.rigidBody = GetComponent<Rigidbody2D>();
         character.transform = transform;
-        colider = gameObject.AddComponent<BoxCollider2D>();
+        collider = gameObject.GetComponent<BoxCollider2D>();
         groundLayer = LayerMask.GetMask("Ground");
         waterLayer = LayerMask.GetMask("Water");
         normalGravity = character.rigidBody.gravityScale;
@@ -125,7 +127,7 @@ public class PlayerController : MonoBehaviour
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
 
-        float distanceToBoundary = colider.bounds.size.y / 2;
+        float distanceToBoundary = collider.bounds.size.y / 2;
         float extraPadding = 0.4f;
         float distance = distanceToBoundary + extraPadding;
 
@@ -142,6 +144,11 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        Debug.Log(this.name + " collided with " + other.gameObject.name);
+    }
     private void OnTriggerEnter2D(Collider2D collider)
     {
         HandleSwimmingEvent(collider, true);
@@ -205,5 +212,6 @@ public class PlayerController : MonoBehaviour
     {
         health = 0;
         spriteRenderer.transform.Rotate(Vector3.forward * -90);
+
     }
 }
