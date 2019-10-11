@@ -67,6 +67,14 @@ public class PlayerController : MonoBehaviour
         HandleAnimations();
     }
 
+    private void CheckOutOfBounds()
+    {
+        if (transform.position.y <= -11)
+        {
+            Die();
+        }
+    }
+
     private void GetInput()
     {
         horizontalMovement = Input.GetAxisRaw("Horizontal") * runSpeed;
@@ -235,11 +243,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         health = 0;
         spriteRenderer.transform.Rotate(Vector3.forward * -90);
         animator.SetTrigger("Dead");
         GetComponent<AudioSource>().PlayOneShot(GetComponent<AudioSource>().clip);
+        character.rigidBody.velocity = new Vector2(0, 0);
     }
 }

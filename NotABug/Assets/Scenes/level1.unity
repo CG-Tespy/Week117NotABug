@@ -26451,7 +26451,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588730886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 135.2, y: 10.25, z: 0}
+  m_LocalPosition: {x: -13.81, y: -4.7, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1742147015}
@@ -26782,10 +26782,9 @@ GameObject:
   - component: {fileID: 1702748511}
   - component: {fileID: 1702748524}
   - component: {fileID: 1702748526}
-  - component: {fileID: 1702748525}
   - component: {fileID: 1702748523}
-  - component: {fileID: 1702748527}
   - component: {fileID: 1702748528}
+  - component: {fileID: 1702748525}
   m_Layer: 0
   m_Name: PlayerHealth
   m_TagString: Untagged
@@ -27121,7 +27120,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 127
     y: 103
-    width: 169
+    width: 163.7143
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -27207,7 +27206,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 1702748524}
   selectedCommands:
-  - {fileID: 1702748527}
+  - {fileID: 1702748523}
   variables:
   - {fileID: 1702748520}
   - {fileID: 1702748519}
@@ -27250,7 +27249,7 @@ MonoBehaviour:
   nodeRect:
     serializedVersion: 2
     x: 423
-    y: 78
+    y: 77
     width: 120
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -27261,7 +27260,6 @@ MonoBehaviour:
   eventHandler: {fileID: 1702748526}
   commandList:
   - {fileID: 1702748525}
-  - {fileID: 1702748527}
   - {fileID: 1702748528}
   - {fileID: 1702748523}
 --- !u!114 &1702748525
@@ -27273,18 +27271,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1702748509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbd8c931f22994b9d90e2037fffaa770, type: 3}
+  m_Script: {fileID: 11500000, guid: 17a200dbd67304446a3019434503338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 8
+  itemId: 12
   indentLevel: 0
-  _targetGameObject:
-    gameObjectRef: {fileID: 0}
-    gameObjectVal: {fileID: 1588730886}
-  activeState:
-    booleanRef: {fileID: 0}
-    booleanVal: 0
-  targetGameObjectOLD: {fileID: 0}
+  targetObject: {fileID: 1588730886}
+  methodName: Die
+  delay: 0
 --- !u!114 &1702748526
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -27299,23 +27293,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentBlock: {fileID: 1702748524}
   damageable: {fileID: 1702748521}
---- !u!114 &1702748527
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1702748509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd2f6be51b3d7490ba5633ee095d0391, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 10
-  indentLevel: 0
-  soundClip: {fileID: 8300000, guid: b6394aad35258194aac36817e9cdf789, type: 3}
-  volume: 1
-  waitUntilFinished: 0
 --- !u!114 &1702748528
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -27620,7 +27597,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1.35}
+  m_Offset: {x: -0.13, y: -1.96}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -27631,7 +27608,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.02}
+  m_Size: {x: 0.68, y: 0.69}
   m_EdgeRadius: 0
 --- !u!1 &1876904245
 GameObject:
