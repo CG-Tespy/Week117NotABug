@@ -14,7 +14,7 @@ public class Door : Lockable
     protected override void Unlock()
     {
         base.Unlock();
-        transform.position = new Vector2(transform.position.x, transform.position.y + 5);
+        transform.position = new Vector2(transform.position.x, transform.position.y + 3);
         Debug.Log("The door has been unlocked.");
     }
 
