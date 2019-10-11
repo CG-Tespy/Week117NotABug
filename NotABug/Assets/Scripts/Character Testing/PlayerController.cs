@@ -207,8 +207,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log("I am swimming my dude");
         isSwimming = true;
 
-        character.rigidBody.gravityScale = 2f;
-        character.rigidBody.velocity = new Vector2(character.rigidBody.velocity.x, -3f);
+        character.rigidBody.gravityScale = 1f;
+        character.rigidBody.velocity = new Vector2(character.rigidBody.velocity.x, -2f);
     }
 
     private void StopSwimming()
