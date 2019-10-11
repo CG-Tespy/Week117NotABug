@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Fungus;
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
@@ -17,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private float normalGravity;
     private float swimTimeLeft;
     private float health = 100;
-    
+
     private new Collider2D collider;
 
     private SpriteRenderer spriteRenderer;
@@ -27,7 +29,17 @@ public class PlayerController : MonoBehaviour
     private LayerMask groundLayer;
     private LayerMask waterLayer;
 
+    [SerializeField] Flowchart hasXPosition;
+    [SerializeField] string xPositionName;
+    FloatVariable xPosition;
+    float DamageValue { get { return xPosition.Value; } }
+
     private const float MAX_SWIM_TIME = 8f;
+
+    private void Awake()
+    {
+        xPosition = hasXPosition.GetVariable(xPositionName) as FloatVariable;
+    }
 
     void Start()
     {
@@ -42,7 +54,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         localScale = transform.localScale.x;
     }
-    
+
     void Update()
     {
         if (health <= 0)
@@ -93,7 +105,7 @@ public class PlayerController : MonoBehaviour
     {
         character.FixedUpdate();
     }
-    
+
     private void Move()
     {
         MoveHorizontally();
@@ -112,6 +124,8 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector2(-localScale, transform.localScale.y);
         }
+
+        xPosition.Value = transform.position.x;
     }
 
     private void MoveVertically()
@@ -180,10 +194,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    void OnCollisionEnter2D(UnityEngine.Collision2D other)
     {
         Debug.Log(this.name + " collided with " + other.gameObject.name);
     }
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         HandleSwimmingEvent(collider, true);
